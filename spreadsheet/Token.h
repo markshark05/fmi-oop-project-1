@@ -5,10 +5,16 @@ class Token
 {
 public:
     enum class Type {
-        Brace,
-        Literal,
-        Operator,
-        Identifier,
+        Operator_Plus,
+        Operator_Minus,
+        Operator_Multiply,
+        Operator_Divide,
+        Operator_Pow,
+        Number_i,
+        Number_f,
+        String,
+        Identifier_R,
+        Identifier_C
     };
     Token(std::string value, Token::Type type);
     Type getType();
