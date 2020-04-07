@@ -11,9 +11,9 @@ public:
         String,
         String_e,
         Number_i,
-        Number_f
+        Number_f,
     };
-    static std::vector<Token> tokenize(std::string str);
+    static std::vector<Token> tokenize(const std::string& str);
 private:
-    static void token_begin(State& s, std::vector<Token>& tokens, std::string& curr_str, const char c);
+    static void token_outside(State& s, std::vector<Token>& tokens, std::string& curr_str, const char c);
 };

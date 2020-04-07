@@ -1,8 +1,9 @@
 #include "Tokenizer.h"
 #include <cctype>
 #include <map>
+#include <stdexcept>
 
-std::vector<Token> Tokenizer::tokenize(std::string str)
+std::vector<Token> Tokenizer::tokenize(const std::string& str)
 {
     State s = State::Intial;
     std::vector<Token> tokens;
@@ -19,7 +20,7 @@ std::vector<Token> Tokenizer::tokenize(std::string str)
                 curr_str = c;
             }
             else {
-                token_begin(s, tokens, curr_str, c);
+                token_outside(s, tokens, curr_str, c);
             }
             break;
         case State::String:
@@ -40,7 +41,7 @@ std::vector<Token> Tokenizer::tokenize(std::string str)
                 curr_str += c;
             }
             else {
-                throw "Error";
+                throw std::runtime_error(std::string("Error: Invalid escape character at ") + c);
             }
             break;
         case State::Number_i:
@@ -53,7 +54,7 @@ std::vector<Token> Tokenizer::tokenize(std::string str)
             }
             else {
                 tokens.push_back(Token(curr_str, Token::Type::Number_i));
-                token_begin(s, tokens, curr_str, c);
+                token_outside(s, tokens, curr_str, c);
             }
             break;
         case State::Number_f:
@@ -61,11 +62,11 @@ std::vector<Token> Tokenizer::tokenize(std::string str)
                 curr_str += c;
             }
             else if (c == '.') {
-                throw "Error";
+                throw std::runtime_error(std::string("Error: Invalid number at ") + c);
             }
             else {
                 tokens.push_back(Token(curr_str, Token::Type::Number_f));
-                token_begin(s, tokens, curr_str, c);
+                token_outside(s, tokens, curr_str, c);
             }
             break;
         }
@@ -76,7 +77,7 @@ std::vector<Token> Tokenizer::tokenize(std::string str)
     {
     case State::String:
     case State::String_e:
-        throw "Error";
+        throw std::runtime_error(std::string("Error: Unexpected end of file"));
     case State::Number_i:
         tokens.push_back(Token(curr_str, Token::Type::Number_i));
         break;
@@ -88,7 +89,7 @@ std::vector<Token> Tokenizer::tokenize(std::string str)
     return tokens;
 }
 
-void Tokenizer::token_begin(State& s, std::vector<Token>& tokens, std::string& curr_str, const char c) {
+void Tokenizer::token_outside(State& s, std::vector<Token>& tokens, std::string& curr_str, const char c) {
     if (c == '"') {
         s = State::String;
         curr_str = "";
@@ -110,6 +111,9 @@ void Tokenizer::token_begin(State& s, std::vector<Token>& tokens, std::string& c
         else if (c == '^') {
             tokens.push_back(Token(std::to_string(c), Token::Type::Operator_Pow));
         }
+        else if (c == '=') {
+            tokens.push_back(Token(std::to_string(c), Token::Type::Operator_Equals));
+        }
         else if (c == 'R') {
             tokens.push_back(Token(std::to_string(c), Token::Type::Identifier_R));
         }
@@ -117,7 +121,7 @@ void Tokenizer::token_begin(State& s, std::vector<Token>& tokens, std::string& c
             tokens.push_back(Token(std::to_string(c), Token::Type::Identifier_C));
         }
         else if (!isblank(c)) {
-            throw "Error";
+            throw std::runtime_error(std::string("Error: Invalid token at ") + c);
         }
     }
 }

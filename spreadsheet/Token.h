@@ -10,6 +10,7 @@ public:
         Operator_Multiply,
         Operator_Divide,
         Operator_Pow,
+        Operator_Equals,
         Number_i,
         Number_f,
         String,
