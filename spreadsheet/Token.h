@@ -4,7 +4,8 @@
 class Token
 {
 public:
-    enum class Type {
+    enum class Type
+    {
         Operator_Plus,
         Operator_Minus,
         Operator_Multiply,

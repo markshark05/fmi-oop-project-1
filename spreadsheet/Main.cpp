@@ -1,18 +1,36 @@
 #include <iostream>
-#include "ExpressionParser.h"
-#include "Tokenizer.h"
 
+#include "CommandLoop.h"
+#include "Command.h"
+#include "OpenCommand.h"
+#include "CloseCommand.h"
+#include "SaveCommand.h"
+#include "SaveAsCommand.h"
+#include "HelpCommand.h"
+#include "ExitCommand.h"
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
+    CommandLoop* loop = new CommandLoop;
 
-    auto str = "123.344 + 456 / \"Haha xdd + R11C22 + \"The string is \\\"Hello, World\\\"\"5";
-    std::cout << str << std::endl;
-    auto t = Tokenizer();
+    std::vector<Command*> commands{
+        new OpenCommand,
+        new CloseCommand,
+        new SaveCommand,
+        new SaveAsCommand,
+        new HelpCommand(loop),
+        new ExitCommand(loop),
+    };
 
-    try {
-        auto r = t.tokenize(str);
+    for (Command*& c : commands)
+    {
+        loop->addCommand(c);
     }
-    catch(std::exception e) {
-        std::cout << e.what();
+
+    loop->Start();
+
+    for (auto& i : commands)
+    {
+        delete i;
     }
 }

@@ -6,7 +6,8 @@
 class Tokenizer
 {
 public:
-    enum class State {
+    enum class State
+    {
         Intial,
         String,
         String_e,

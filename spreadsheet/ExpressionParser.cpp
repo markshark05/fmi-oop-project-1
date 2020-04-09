@@ -2,15 +2,19 @@
 
 #include <stack>
 
-double ExpressionParser::evaluate(const std::string& str) {
+double ExpressionParser::evaluate(const std::string& str)
+{
     std::stack<double> operands;
     std::stack<char> operators;
 
-    for (unsigned int i = 0; i < str.length(); i++) {
+    for (unsigned int i = 0; i < str.length(); i++)
+    {
         char c = str[i];
-        if (isDigit(c)) {
+        if (isDigit(c))
+        {
             int num = 0;
-            while (isDigit(c)) {
+            while (isDigit(c))
+            {
                 num = num * 10 + (c - '0');
                 i++;
                 if (i < str.length())
@@ -21,18 +25,23 @@ double ExpressionParser::evaluate(const std::string& str) {
             i--;
             operands.push(num);
         }
-        else if (c == '(') {
+        else if (c == '(')
+        {
             operators.push(c);
         }
-        else if (c == ')') {
-            while (operators.top() != '(') {
+        else if (c == ')')
+        {
+            while (operators.top() != '(')
+            {
                 double output = performOperation(operands, operators);
                 operands.push(output);
             }
             operators.pop();
         }
-        else if (isOperator(c)) {
-            while (!operators.empty() && precedence(c) <= precedence(operators.top())) {
+        else if (isOperator(c))
+        {
+            while (!operators.empty() && precedence(c) <= precedence(operators.top()))
+            {
                 double output = performOperation(operands, operators);
                 operands.push(output);
             }
@@ -40,19 +49,23 @@ double ExpressionParser::evaluate(const std::string& str) {
         }
     }
 
-    while (!operators.empty()) {
+    while (!operators.empty())
+    {
         double output = performOperation(operands, operators);
         operands.push(output);
     }
     return operands.top();
 }
 
-bool ExpressionParser::isDigit(const char ch) {
+bool ExpressionParser::isDigit(const char ch)
+{
     return ch >= '0' && ch <= '9';
 }
 
-int ExpressionParser::precedence(const char c) {
-    switch (c) {
+int ExpressionParser::precedence(const char c)
+{
+    switch (c)
+    {
     case '+':
     case '-':
         return 1;
@@ -65,17 +78,19 @@ int ExpressionParser::precedence(const char c) {
     return -1;
 }
 
-double ExpressionParser::performOperation(std::stack<double>& numbers, std::stack<char>& operations) {
+double ExpressionParser::performOperation(std::stack<double>& numbers, std::stack<char>& operations)
+{
     double a = numbers.top();
     numbers.pop();
-    
+
     double b = numbers.top();
     numbers.pop();
-    
-    char operation = operations.top(); 
+
+    char operation = operations.top();
     operations.pop();
-    
-    switch (operation) {
+
+    switch (operation)
+    {
     case '+':
         return a + b;
     case '-':
@@ -88,6 +103,7 @@ double ExpressionParser::performOperation(std::stack<double>& numbers, std::stac
     return 0;
 }
 
-bool ExpressionParser::isOperator(const char c) {
+bool ExpressionParser::isOperator(const char c)
+{
     return (c == '+' || c == '-' || c == '/' || c == '*' || c == '^');
 }

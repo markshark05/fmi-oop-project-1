@@ -138,13 +138,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CloseCommand.cpp" />
+    <ClCompile Include="Command.cpp" />
+    <ClCompile Include="CommandLoop.cpp" />
+    <ClCompile Include="ExitCommand.cpp" />
     <ClCompile Include="ExpressionParser.cpp" />
+    <ClCompile Include="HelpCommand.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="OpenCommand.cpp" />
+    <ClCompile Include="SaveAsCommand.cpp" />
+    <ClCompile Include="SaveCommand.cpp" />
     <ClCompile Include="Token.cpp" />
     <ClCompile Include="Tokenizer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CloseCommand.h" />
+    <ClInclude Include="Command.h" />
+    <ClInclude Include="CommandLoop.h" />
+    <ClInclude Include="ExitCommand.h" />
     <ClInclude Include="ExpressionParser.h" />
+    <ClInclude Include="HelpCommand.h" />
+    <ClInclude Include="ICommands.h" />
+    <ClInclude Include="IStoppable.h" />
+    <ClInclude Include="OpenCommand.h" />
+    <ClInclude Include="SaveAsCommand.h" />
+    <ClInclude Include="SaveCommand.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="Tokenizer.h" />
   </ItemGroup>

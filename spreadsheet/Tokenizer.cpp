@@ -15,56 +15,69 @@ std::vector<Token> Tokenizer::tokenize(const std::string& str)
         switch (s)
         {
         case State::Intial:
-            if (isdigit(c)) {
+            if (isdigit(c))
+            {
                 s = State::Number_i;
                 curr_str = c;
             }
-            else {
+            else
+            {
                 token_outside(s, tokens, curr_str, c);
             }
             break;
         case State::String:
-            if (c == '\\') {
+            if (c == '\\')
+            {
                 s = State::String_e;
             }
-            else if (c == '"') {
+            else if (c == '"')
+            {
                 tokens.push_back(Token(curr_str, Token::Type::String));
                 s = State::Intial;
             }
-            else {
+            else
+            {
                 curr_str += c;
             }
             break;
         case State::String_e:
-            if (c == '\\' || c == '"') {
+            if (c == '\\' || c == '"')
+            {
                 s = State::String;
                 curr_str += c;
             }
-            else {
+            else
+            {
                 throw std::runtime_error(std::string("Error: Invalid escape character at ") + c);
             }
             break;
         case State::Number_i:
-            if (isdigit(c)) {
+            if (isdigit(c))
+            {
                 curr_str += c;
             }
-            else if (c == '.') {
+            else if (c == '.')
+            {
                 s = State::Number_f;
                 curr_str += c;
             }
-            else {
+            else
+            {
                 tokens.push_back(Token(curr_str, Token::Type::Number_i));
                 token_outside(s, tokens, curr_str, c);
             }
             break;
         case State::Number_f:
-            if (isdigit(c)) {
+            if (isdigit(c))
+            {
                 curr_str += c;
             }
-            else if (c == '.') {
+            else if (c == '.')
+            {
                 throw std::runtime_error(std::string("Error: Invalid number at ") + c);
             }
-            else {
+            else
+            {
                 tokens.push_back(Token(curr_str, Token::Type::Number_f));
                 token_outside(s, tokens, curr_str, c);
             }
@@ -89,38 +102,50 @@ std::vector<Token> Tokenizer::tokenize(const std::string& str)
     return tokens;
 }
 
-void Tokenizer::token_outside(State& s, std::vector<Token>& tokens, std::string& curr_str, const char c) {
-    if (c == '"') {
+void Tokenizer::token_outside(State& s, std::vector<Token>& tokens, std::string& curr_str, const char c)
+{
+    if (c == '"')
+    {
         s = State::String;
         curr_str = "";
     }
-    else {
+    else
+    {
         s = State::Intial;
-        if (c == '+') {
+        if (c == '+')
+        {
             tokens.push_back(Token(std::to_string(c), Token::Type::Operator_Plus));
         }
-        else if (c == '-') {
+        else if (c == '-')
+        {
             tokens.push_back(Token(std::to_string(c), Token::Type::Operator_Minus));
         }
-        else if (c == '*') {
+        else if (c == '*')
+        {
             tokens.push_back(Token(std::to_string(c), Token::Type::Operator_Multiply));
         }
-        else if (c == '/') {
+        else if (c == '/')
+        {
             tokens.push_back(Token(std::to_string(c), Token::Type::Operator_Divide));
         }
-        else if (c == '^') {
+        else if (c == '^')
+        {
             tokens.push_back(Token(std::to_string(c), Token::Type::Operator_Pow));
         }
-        else if (c == '=') {
+        else if (c == '=')
+        {
             tokens.push_back(Token(std::to_string(c), Token::Type::Operator_Equals));
         }
-        else if (c == 'R') {
+        else if (c == 'R')
+        {
             tokens.push_back(Token(std::to_string(c), Token::Type::Identifier_R));
         }
-        else if (c == 'C') {
+        else if (c == 'C')
+        {
             tokens.push_back(Token(std::to_string(c), Token::Type::Identifier_C));
         }
-        else if (!isblank(c)) {
+        else if (!isblank(c))
+        {
             throw std::runtime_error(std::string("Error: Invalid token at ") + c);
         }
     }
