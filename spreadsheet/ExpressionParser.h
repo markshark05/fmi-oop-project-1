@@ -1,15 +1,19 @@
 #pragma once
 #include <string>
 #include <stack>
+#include <queue>
+#include <vector>
+
+#include "Token.h"
 
 class ExpressionParser
 {
 public:
-    static double evaluate(const std::string& str);
+    double evaluate(const std::vector<Token>& str);
 private:
-    static bool isOperator(const char c);
-    static bool isDigit(const char ch);
-    static int precedence(const char c);
-    static double performOperation(std::stack<double>& numbers, std::stack<char>& operations);
+    static std::queue<Token> toRPN(const std::vector<Token>& tokens);
+    static double evaluateRPN(std::queue<Token> queue);
+    static int precedence(const Token::Type operatorType);
+    static bool left_associative(const Token::Type operatorType);
+    static double performOperation(double a, double b, const Token::Type operatorType);
 };
-

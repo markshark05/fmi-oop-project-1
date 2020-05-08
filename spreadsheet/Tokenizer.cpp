@@ -5,13 +5,13 @@
 
 std::vector<Token> Tokenizer::tokenize(const std::string& str)
 {
-    State s = State::Intial;
+    State s{ State::Intial };
     std::vector<Token> tokens;
     std::string curr_str;
 
-    for (size_t i = 0; i < str.length(); i++)
+    for (unsigned int i{ 0 }; i < str.length(); i++)
     {
-        const char c = str[i];
+        const char c{ str[i] };
         switch (s)
         {
         case State::Intial:
@@ -114,35 +114,35 @@ void Tokenizer::token_outside(State& s, std::vector<Token>& tokens, std::string&
         s = State::Intial;
         if (c == '+')
         {
-            tokens.push_back(Token(std::to_string(c), Token::Type::Operator_Plus));
+            tokens.push_back(Token(std::string(1, c), Token::Type::Operator_Plus));
         }
         else if (c == '-')
         {
-            tokens.push_back(Token(std::to_string(c), Token::Type::Operator_Minus));
+            tokens.push_back(Token(std::string(1, c), Token::Type::Operator_Minus));
         }
         else if (c == '*')
         {
-            tokens.push_back(Token(std::to_string(c), Token::Type::Operator_Multiply));
+            tokens.push_back(Token(std::string(1, c), Token::Type::Operator_Multiply));
         }
         else if (c == '/')
         {
-            tokens.push_back(Token(std::to_string(c), Token::Type::Operator_Divide));
+            tokens.push_back(Token(std::string(1, c), Token::Type::Operator_Divide));
         }
         else if (c == '^')
         {
-            tokens.push_back(Token(std::to_string(c), Token::Type::Operator_Pow));
+            tokens.push_back(Token(std::string(1, c), Token::Type::Operator_Pow));
         }
         else if (c == '=')
         {
-            tokens.push_back(Token(std::to_string(c), Token::Type::Operator_Equals));
+            tokens.push_back(Token(std::string(1, c), Token::Type::Operator_Equals));
         }
         else if (c == 'R')
         {
-            tokens.push_back(Token(std::to_string(c), Token::Type::Identifier_R));
+            tokens.push_back(Token(std::string(1, c), Token::Type::Identifier_R));
         }
         else if (c == 'C')
         {
-            tokens.push_back(Token(std::to_string(c), Token::Type::Identifier_C));
+            tokens.push_back(Token(std::string(1, c), Token::Type::Identifier_C));
         }
         else if (!isblank(c))
         {

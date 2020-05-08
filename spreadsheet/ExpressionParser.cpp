@@ -1,109 +1,140 @@
 #include "ExpressionParser.h"
 
-#include <stack>
-
-double ExpressionParser::evaluate(const std::string& str)
+double ExpressionParser::evaluate(const std::vector<Token>& tokens)
 {
-    std::stack<double> operands;
-    std::stack<char> operators;
+    std::queue<Token> rpnQueue{ toRPN(tokens) };
+    double result{ evaluateRPN(rpnQueue) };
 
-    for (unsigned int i = 0; i < str.length(); i++)
+    return result;
+}
+
+// Shunting-yard algorithm
+std::queue<Token> ExpressionParser::toRPN(const std::vector<Token>& tokens)
+{
+    std::stack<Token> operators;
+    std::queue<Token> output;
+
+    for (Token const& token : tokens)
     {
-        char c = str[i];
-        if (isDigit(c))
+        switch (token.getType())
         {
-            int num = 0;
-            while (isDigit(c))
-            {
-                num = num * 10 + (c - '0');
-                i++;
-                if (i < str.length())
-                    c = str[i];
-                else
-                    break;
-            }
-            i--;
-            operands.push(num);
+        case Token::Type::Number_i:
+        case Token::Type::Number_f:
+        {
+            output.push(token);
         }
-        else if (c == '(')
+        break;
+        case Token::Type::Operator_Plus:
+        case Token::Type::Operator_Minus:
+        case Token::Type::Operator_Multiply:
+        case Token::Type::Operator_Divide:
+        case Token::Type::Operator_Pow:
         {
-            operators.push(c);
-        }
-        else if (c == ')')
-        {
-            while (operators.top() != '(')
+            while (!operators.empty() && (
+                left_associative(token.getType()) && precedence(operators.top().getType()) >= precedence(token.getType()) ||
+                !left_associative(token.getType()) && precedence(operators.top().getType()) > precedence(token.getType())
+                ))
             {
-                double output = performOperation(operands, operators);
-                operands.push(output);
+                output.push(operators.top());
+                operators.pop();
             }
-            operators.pop();
+            operators.push(token);
         }
-        else if (isOperator(c))
-        {
-            while (!operators.empty() && precedence(c) <= precedence(operators.top()))
-            {
-                double output = performOperation(operands, operators);
-                operands.push(output);
-            }
-            operators.push(c);
+        break;
         }
     }
 
     while (!operators.empty())
     {
-        double output = performOperation(operands, operators);
-        operands.push(output);
+        output.push(operators.top());
+        operators.pop();
     }
-    return operands.top();
+
+    return output;
 }
 
-bool ExpressionParser::isDigit(const char ch)
+double ExpressionParser::evaluateRPN(std::queue<Token> queue)
 {
-    return ch >= '0' && ch <= '9';
-}
+    std::stack<double> output;
 
-int ExpressionParser::precedence(const char c)
-{
-    switch (c)
+    while (!queue.empty())
     {
-    case '+':
-    case '-':
+        const Token& token{ queue.front() };
+        switch (token.getType())
+        {
+        case Token::Type::Number_i:
+        case Token::Type::Number_f:
+        {
+            double value = std::stod(token.getValue());
+
+            output.push(value);
+        }
+        break;
+        case Token::Type::Operator_Plus:
+        case Token::Type::Operator_Minus:
+        case Token::Type::Operator_Multiply:
+        case Token::Type::Operator_Divide:
+        case Token::Type::Operator_Pow:
+        {
+            double b{ output.top() };
+            output.pop();
+
+            double a{ output.top() };
+            output.pop();
+
+            double result{ performOperation(a, b, token.getType()) };
+
+            output.push(result);
+        }
+        break;
+        }
+        queue.pop();
+    }
+
+    return output.top();
+}
+
+int ExpressionParser::precedence(const Token::Type operatorType)
+{
+    switch (operatorType)
+    {
+    case Token::Type::Operator_Plus:
+    case Token::Type::Operator_Minus:
         return 1;
-    case '*':
-    case '/':
+    case Token::Type::Operator_Multiply:
+    case Token::Type::Operator_Divide:
         return 2;
-    case '^':
+    case Token::Type::Operator_Pow:
         return 3;
-    }
-    return -1;
-}
-
-double ExpressionParser::performOperation(std::stack<double>& numbers, std::stack<char>& operations)
-{
-    double a = numbers.top();
-    numbers.pop();
-
-    double b = numbers.top();
-    numbers.pop();
-
-    char operation = operations.top();
-    operations.pop();
-
-    switch (operation)
-    {
-    case '+':
-        return a + b;
-    case '-':
-        return b - a;
-    case '*':
-        return a * b;
-    case '/':
-        return b / a;
     }
     return 0;
 }
 
-bool ExpressionParser::isOperator(const char c)
+bool ExpressionParser::left_associative(const Token::Type operatorType)
 {
-    return (c == '+' || c == '-' || c == '/' || c == '*' || c == '^');
+    switch (operatorType)
+    {
+    case Token::Type::Operator_Pow:
+        return false;
+    default:
+        return true;
+    }
+}
+
+double ExpressionParser::performOperation(double a, double b, const Token::Type operatorType)
+{
+    switch (operatorType)
+    {
+    case Token::Type::Operator_Plus:
+        return a + b;
+    case Token::Type::Operator_Minus:
+        return a - b;
+    case Token::Type::Operator_Multiply:
+        return a * b;
+    case Token::Type::Operator_Divide:
+        return a / b;
+    case Token::Type::Operator_Pow:
+        return pow(a, b);
+    }
+    return 0;
 }

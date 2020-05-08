@@ -6,12 +6,12 @@ Token::Token(std::string value, Token::Type type) :
 {
 }
 
-Token::Type Token::getType()
+Token::Type Token::getType() const
 {
     return _type;
 }
 
-std::string Token::getValue()
+std::string Token::getValue() const
 {
     return _value;
 }

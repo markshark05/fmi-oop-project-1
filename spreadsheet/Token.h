@@ -19,8 +19,8 @@ public:
         Identifier_C
     };
     Token(std::string value, Token::Type type);
-    Type getType();
-    std::string getValue();
+    Type getType() const;
+    std::string getValue() const;
 private:
     Type _type;
     std::string _value;
