@@ -1,23 +1,23 @@
 #include "Command.h"
 
-Command::Command(const std::string& name, int parameters, const std::string& helpMessage) :
-    _name(name),
-    _parameters(parameters),
-    _helpMessage(helpMessage)
+Command::Command(const std::string& name, int minArgsCount, const std::string& helpMessage) :
+    name(name),
+    minArgsCount(minArgsCount),
+    helpMessage(helpMessage)
 {
 }
 
 const std::string& Command::getName() const
 {
-    return _name;
+    return name;
 }
 
-int Command::getParameters() const
+int Command::getMinArgsCount() const
 {
-    return _parameters;
+    return minArgsCount;
 }
 
 const std::string& Command::getHelpMessage() const
 {
-    return _helpMessage;
+    return helpMessage;
 }

@@ -1,71 +1,104 @@
-#include <iostream>
-#include <limits>
+#include <sstream>
 #include "CommandLoop.h"
 
-CommandLoop::CommandLoop() :
-    _running(false)
-{
-}
+#include "CommandOpen.h"
+#include "CommandClose.h"
+#include "CommandSave.h"
+#include "CommandSaveAs.h"
 
-CommandLoop::CommandLoop(std::vector<Command*>& commands) :
-    _running(false),
-    _commands(commands)
+#include "CommandEdit.h"
+#include "CommandPrint.h"
+
+#include "CommandHelp.h"
+#include "CommandExit.h"
+
+
+CommandLoop::CommandLoop(std::istream& in, std::ostream& out) :
+    in(in),
+    out(out),
+    running(false),
+    commands{
+        new CommandOpen,
+        new CommandClose,
+        new CommandSave,
+        new CommandSaveAs,
+
+        new CommandEdit,
+        new CommandPrint,
+
+        new CommandHelp{ this },
+        new CommandExit{ this }, 
+}
 {
 }
 
 void CommandLoop::Start()
 {
-    if (!_running)
+    if (!running)
     {
-        _running = true;
-        _loop();
+        running = true;
+        loop();
     }
 }
 
 void CommandLoop::Stop()
 {
-    _running = false;
+    running = false;
 }
 
 const std::vector<Command*>& CommandLoop::getCommands() const
 {
-    return _commands;
+    return commands;
 }
 
-void CommandLoop::addCommand(Command* command)
+void CommandLoop::loop()
 {
-    _commands.push_back(command);
-}
-
-void CommandLoop::_loop()
-{
-    std::string word;
-    while (_running)
+    while (running)
     {
-        std::cout << "> ";
-        std::cin >> word;
+        out << "> ";
+        std::string line;
+        std::getline(in, line);
 
-        auto iter = std::find_if(_commands.begin(), _commands.end(), [&word](const Command* c)
-            {
-                return c->getName() == word;
-            });
-
-        if (iter == _commands.end())
+        std::istringstream linestream{ line };
+        std::string commandStr;
+        if (linestream >> commandStr)
         {
-            std::cout << "command not found" << std::endl;
-        }
-        else
-        {
-            Command* command = *iter;
-            std::vector<std::string> arguments;
-            for (int i = 0; i < command->getParameters(); i++)
+            Command* command = nullptr;
+            for (Command* const& c : commands)
             {
-                std::cin >> word;
-                arguments.push_back(word);
+                if (c->getName() == commandStr)
+                {
+                    command = c;
+                }
             }
-            std::cout << command->execute() << std::endl;
-        }
 
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            if (command)
+            {
+                std::vector<std::string> args = parseArgs(linestream, command->getMinArgsCount());
+                if (args.size() != command->getMinArgsCount())
+                {
+                    out << "Expected " << command->getMinArgsCount() << " argument(s) but got " << args.size() << "." << std::endl;
+                }
+                else
+                {
+                    command->execute(out, args);
+                }
+            }
+            else
+            {
+                out << "Unknown command \"" << commandStr << "\"." << std::endl;
+            }
+        }
     }
+}
+
+std::vector<std::string> CommandLoop::parseArgs(std::istringstream& linestream, unsigned int max)
+{
+    std::vector<std::string> args;
+    std::string token;
+    for (unsigned int i = 0; i < max && linestream >> token; i++)
+    {
+        args.push_back(token);
+    }
+    return args;
 }

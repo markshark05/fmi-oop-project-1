@@ -9,14 +9,15 @@ class CommandLoop :
     public ICommands
 {
 public:
-    CommandLoop();
-    CommandLoop(std::vector<Command*>& commands);
+    CommandLoop(std::istream& in, std::ostream& out);
     void Start();
     void Stop();
     const std::vector<Command*>& getCommands() const;
-    void addCommand(Command* command);
 private:
-    void _loop();
-    bool _running;
-    std::vector<Command*> _commands;
+    std::istream& in;
+    std::ostream& out;
+    bool running;
+    std::vector<Command*> commands;
+    void loop();
+    std::vector<std::string> parseArgs(std::istringstream& linestream, unsigned int max);
 };
