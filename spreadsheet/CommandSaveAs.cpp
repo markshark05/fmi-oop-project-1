@@ -1,11 +1,18 @@
 #include "CommandSaveAs.h"
 
-CommandSaveAs::CommandSaveAs() :
-    Command("saveas", 1, "saves the currently open file in <file>")
+CommandSaveAs::CommandSaveAs(FileContext& fileCtx) :
+    Command("saveas", 1, "saveas <file> - saves the currently open file in <file> and switches to it"),
+    fileCtx(&fileCtx)
 {
 }
 
-void CommandSaveAs::execute(std::ostream& out, const std::vector<std::string>& args)
+bool CommandSaveAs::fileRequirement()
 {
-    out << "saveas executed" << std::endl;
+    return fileCtx->getActiveFile();
+}
+
+void CommandSaveAs::execute(std::istream& in, std::ostream& out, const std::vector<std::string>& args)
+{
+    const std::string& filename = args[0];
+
 }

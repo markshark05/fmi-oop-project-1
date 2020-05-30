@@ -1,11 +1,16 @@
 #include "CommandSave.h"
 
-CommandSave::CommandSave()
-    : Command("save", 0, "saves the currently open file")
+CommandSave::CommandSave(FileContext& fileCtx) :
+    Command("save", 0, "save - saves the currently open file"),
+    fileCtx(&fileCtx)
 {
 }
 
-void CommandSave::execute(std::ostream& out, const std::vector<std::string>& args)
+bool CommandSave::fileRequirement()
 {
-    out << "save executed" << std::endl;
+    return fileCtx->getActiveFile();
+}
+
+void CommandSave::execute(std::istream& in, std::ostream& out, const std::vector<std::string>& args)
+{
 }

@@ -18,10 +18,11 @@ public:
         Identifier_R,
         Identifier_C
     };
-    Token(std::string value, Token::Type type);
-    Type getType() const;
-    std::string getValue() const;
 private:
     Type _type;
     std::string _value;
+public:
+    Token(std::string value, Token::Type type);
+    Type getType() const;
+    std::string getValue() const;
 };

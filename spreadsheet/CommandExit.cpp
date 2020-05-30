@@ -1,13 +1,13 @@
 #include "CommandExit.h"
 
-CommandExit::CommandExit(IStoppable* loop) :
-    Command("exit", 0, "exists the program"),
-    _loop(loop)
+CommandExit::CommandExit(IStoppableLoop& loop) :
+    Command("exit", 0, "exit - exists the program"),
+    _loop(&loop)
 {
 }
 
-void CommandExit::execute(std::ostream& out, const std::vector<std::string>& args)
+void CommandExit::execute(std::istream& in, std::ostream& out, const std::vector<std::string>& args)
 {
-    _loop->Stop();
+    _loop->stop();
     out << "Exiting the program..." << std::endl;
 }

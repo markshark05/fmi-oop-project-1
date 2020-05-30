@@ -19,14 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Application.cpp" />
+    <ClCompile Include="CLILoop.cpp" />
     <ClCompile Include="CommandClose.cpp" />
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="CommandEdit.cpp" />
-    <ClCompile Include="CommandLoop.cpp" />
     <ClCompile Include="CommandExit.cpp" />
+    <ClCompile Include="CommandHelp.cpp" />
     <ClCompile Include="CommandPrint.cpp" />
     <ClCompile Include="ExpressionParser.cpp" />
-    <ClCompile Include="CommandHelp.cpp" />
+    <ClCompile Include="FileContext.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="CommandOpen.cpp" />
     <ClCompile Include="CommandSaveAs.cpp" />
@@ -35,19 +37,21 @@
     <ClCompile Include="Tokenizer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Application.h" />
+    <ClInclude Include="CLILoop.h" />
     <ClInclude Include="CommandClose.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="CommandEdit.h" />
-    <ClInclude Include="CommandLoop.h" />
     <ClInclude Include="CommandExit.h" />
+    <ClInclude Include="CommandHelp.h" />
     <ClInclude Include="CommandPrint.h" />
     <ClInclude Include="ExpressionParser.h" />
-    <ClInclude Include="CommandHelp.h" />
-    <ClInclude Include="ICommands.h" />
-    <ClInclude Include="IStoppable.h" />
     <ClInclude Include="CommandOpen.h" />
     <ClInclude Include="CommandSaveAs.h" />
     <ClInclude Include="CommandSave.h" />
+    <ClInclude Include="FileContext.h" />
+    <ClInclude Include="ICommandsLoop.h" />
+    <ClInclude Include="IStoppableLoop.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="Tokenizer.h" />
   </ItemGroup>

@@ -1,11 +1,19 @@
 #include "CommandClose.h"
+#include "FileContext.h"
 
-CommandClose::CommandClose() :
-    Command("close", 0, "closes currently opened file")
+CommandClose::CommandClose(FileContext& fileCtx) :
+    Command("close", 0, "close - closes currently opened file"),
+    fileCtx(&fileCtx)
 {
 }
 
-void CommandClose::execute(std::ostream& out, const std::vector<std::string>& args)
+bool CommandClose::fileRequirement()
 {
-    out << "close executed" << std::endl;
+    return fileCtx->getActiveFile();
+}
+
+void CommandClose::execute(std::istream& in, std::ostream& out, const std::vector<std::string>& args)
+{
+    fileCtx->clearActiveFile();
+    out << "File closed successfully" << std::endl;
 }

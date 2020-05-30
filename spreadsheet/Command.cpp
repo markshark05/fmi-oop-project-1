@@ -21,3 +21,16 @@ const std::string& Command::getHelpMessage() const
 {
     return helpMessage;
 }
+
+bool Command::fileRequirement()
+{
+    return true;
+}
+
+std::string Command::promptLine(std::istream& in, std::ostream& out, const std::string& prompt)
+{
+    std::string str;
+    out << prompt << ": ";
+    std::getline(in, str);
+    return str;
+}

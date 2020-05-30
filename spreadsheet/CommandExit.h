@@ -1,13 +1,13 @@
 #pragma once
 #include "Command.h"
-#include "IStoppable.h"
+#include "IStoppableLoop.h"
 
 class CommandExit :
     public Command
 {
-public:
-    CommandExit(IStoppable* loop);
-    void execute(std::ostream& out, const std::vector<std::string>& args) override;
 private:
-    IStoppable* _loop;
+    IStoppableLoop* _loop;
+public:
+    CommandExit(IStoppableLoop& loop);
+    void execute(std::istream& in, std::ostream& out, const std::vector<std::string>& args) override;
 };
