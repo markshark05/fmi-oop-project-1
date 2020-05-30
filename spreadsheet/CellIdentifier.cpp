@@ -3,7 +3,7 @@
 
 CellIdentifier::CellIdentifier(const std::string& str)
 {
-    unsigned c_pos = str.find("C");
+    size_t c_pos = str.find("C");
     row = std::stoi(str.substr(1, c_pos - 1)) - OFFSET;
     col = std::stoi(str.substr(c_pos + 1)) - OFFSET;
 }

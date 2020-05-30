@@ -25,4 +25,5 @@ public:
     Tokenizer(const std::string& str);
     std::vector<Token> getTokens() const;
     bool tokenize();
+    static std::string stringify(const Token& token);
 };

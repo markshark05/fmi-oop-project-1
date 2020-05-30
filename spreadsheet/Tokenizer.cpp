@@ -17,7 +17,7 @@ std::vector<Token> Tokenizer::getTokens() const
 bool Tokenizer::tokenize()
 {
     std::string curr_str;
-    for (unsigned i = 0; i < str.length(); i++)
+    for (size_t i = 0; i < str.length(); i++)
     {
         const char c{ str[i] };
         switch (s)
@@ -196,4 +196,29 @@ bool Tokenizer::tokenize()
     }
 
     return true;
+}
+
+std::string Tokenizer::stringify(const Token& token)
+{
+    std::string value = token.getValue();
+    if (token.getType() == Token::Type::String)
+    {
+        std::string output;
+        output.reserve(value.length() + 2);
+        
+        output.push_back('"');
+        for (const char& c : value)
+        {
+            if (c == '"')
+            {
+                output.push_back('\\');
+            }
+            output.push_back(c);
+        }
+        output.push_back('"');
+
+        return output;
+    }
+
+    return value;
 }

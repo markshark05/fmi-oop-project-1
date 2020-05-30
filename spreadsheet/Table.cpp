@@ -52,7 +52,7 @@ Token Table::getCellValue(unsigned row, unsigned col) const
             {
             case Token::Type::Operator_Equals:
             {
-                for (unsigned i = 1; i < tokens.size(); i++)
+                for (size_t i = 1; i < tokens.size(); i++)
                 {
                     if (tokens[i].getType() == Token::Type::Identifier)
                     {
@@ -110,7 +110,34 @@ bool Table::load(const std::string& fileName)
     return true;
 }
 
-bool Table::save(const std::string& fileName)
+bool Table::save(const std::string& fileName) const
 {
-    return 0;
+    std::ofstream file{ fileName, std::ios::trunc };
+    if (!file)
+    {
+        return false;
+    }
+
+    for (unsigned i = 0; i < rows; i++)
+    {
+        std::vector<std::string> row;
+        for (unsigned j = 0; j < cols; j++)
+        {
+            std::ostringstream cellStr;
+            if (table.count({ i, j }))
+            {
+                std::vector<Token> tokens = table.at({i, j}).getTokens();
+                for (auto& t : tokens)
+                {
+                    cellStr << Tokenizer::stringify(t);
+                }
+            }
+            
+            row.push_back(cellStr.str());
+        }
+        
+        writer->writeCSVRow(file, row);
+    }
+
+    return true;
 }

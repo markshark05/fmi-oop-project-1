@@ -30,7 +30,7 @@ void CommandPrint::execute(std::istream& in, std::ostream& out, const std::vecto
         for (int j = 0; j < cols; j++)
         {
             std::string value = table->getCellString(i, j);
-            col_widths[j] = std::max(col_widths[j], value.size() + 1);
+            col_widths[j] = std::max(col_widths[j], static_cast<unsigned>(value.size() + 1));
             row.push_back(value);
         }
         buffer.push_back(row);
