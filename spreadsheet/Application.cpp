@@ -10,20 +10,26 @@
 #include "CommandSaveAs.h"
 #include "CommandEdit.h"
 #include "CommandPrint.h"
+#include "ExpressionParser.h"
 
 void Application::run()
 {
+    CSVReader reader;
+    CSVWriter writer;
+    Tokenizer tokenizer;
+    ExpressionParser parser;
+
+    Table table{ reader, writer, tokenizer, parser };
     FileContext fileCtx;
-    
     std::vector<Command*> commands
     {
-        new CommandOpen{ fileCtx },
+        new CommandOpen{ fileCtx, table },
         new CommandClose{ fileCtx },
-        new CommandSave{ fileCtx },
-        new CommandSaveAs{ fileCtx },
+        new CommandSave{ fileCtx, table },
+        new CommandSaveAs{ fileCtx, table },
 
         new CommandEdit,
-        new CommandPrint,
+        new CommandPrint{ fileCtx, table },
     };
 
     CLILoop cmdloop{ std::cin, std::cout, commands };

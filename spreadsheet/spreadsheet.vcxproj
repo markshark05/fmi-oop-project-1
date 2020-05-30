@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Cell.cpp" />
     <ClCompile Include="CLILoop.cpp" />
     <ClCompile Include="CommandClose.cpp" />
     <ClCompile Include="Command.cpp" />
@@ -35,11 +36,13 @@
     <ClCompile Include="CommandOpen.cpp" />
     <ClCompile Include="CommandSaveAs.cpp" />
     <ClCompile Include="CommandSave.cpp" />
+    <ClCompile Include="Table.cpp" />
     <ClCompile Include="Token.cpp" />
     <ClCompile Include="Tokenizer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Cell.h" />
     <ClInclude Include="CLILoop.h" />
     <ClInclude Include="CommandClose.h" />
     <ClInclude Include="Command.h" />
@@ -56,6 +59,7 @@
     <ClInclude Include="FileContext.h" />
     <ClInclude Include="ICommandsLoop.h" />
     <ClInclude Include="IStoppableLoop.h" />
+    <ClInclude Include="Table.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="Tokenizer.h" />
   </ItemGroup>

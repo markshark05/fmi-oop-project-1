@@ -6,5 +6,5 @@
 class CSVWriter
 {
 public:
-    void writeCSVRow(std::ostream& out, const std::vector<std::string>& csvRow);
+    void writeCSVRow(std::ostream& out, const std::vector<std::string>& csvRow) const;
 };

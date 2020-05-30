@@ -9,7 +9,7 @@
 class ExpressionParser
 {
 public:
-    double evaluate(const std::vector<Token>& str);
+    double evaluate(const std::vector<Token>& str) const;
 private:
     static std::queue<Token> toRPN(const std::vector<Token>& tokens);
     static double evaluateRPN(std::queue<Token> queue);

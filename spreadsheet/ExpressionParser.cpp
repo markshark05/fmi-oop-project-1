@@ -1,6 +1,6 @@
 #include "ExpressionParser.h"
 
-double ExpressionParser::evaluate(const std::vector<Token>& tokens)
+double ExpressionParser::evaluate(const std::vector<Token>& tokens) const
 {
     std::queue<Token> rpnQueue{ toRPN(tokens) };
     double result{ evaluateRPN(rpnQueue) };
@@ -18,6 +18,11 @@ std::queue<Token> ExpressionParser::toRPN(const std::vector<Token>& tokens)
     {
         switch (token.getType())
         {
+        case Token::Type::String:
+        {
+            output.push({ "0", Token::Type::Number_i });
+        }
+        break;
         case Token::Type::Number_i:
         case Token::Type::Number_f:
         {
@@ -89,6 +94,11 @@ double ExpressionParser::evaluateRPN(std::queue<Token> queue)
         break;
         }
         queue.pop();
+    }
+
+    if (output.empty())
+    {
+        return 0;
     }
 
     return output.top();

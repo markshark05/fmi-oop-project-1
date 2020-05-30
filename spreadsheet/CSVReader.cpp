@@ -1,6 +1,6 @@
 #include "CSVReader.h"
 
-std::vector<std::string> CSVReader::readCSVRow(std::istream& in)
+std::vector<std::string> CSVReader::readCSVRow(std::istream& in) const
 {
     std::string row;
     std::getline(in, row);

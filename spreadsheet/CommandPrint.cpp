@@ -1,11 +1,25 @@
 #include "CommandPrint.h"
 
-CommandPrint::CommandPrint() :
-    Command("print", 0, "print - prints the current table")
+CommandPrint::CommandPrint(const FileContext& fileCtx, const Table& table) :
+    Command("print", 0, "print - prints the current table"),
+    fileCtx(&fileCtx),
+    table(&table)
 {
+}
+
+bool CommandPrint::fileRequirement()
+{
+    return fileCtx->getActiveFile();
 }
 
 void CommandPrint::execute(std::istream& in, std::ostream& out, const std::vector<std::string>& args)
 {
-    out << "print executed" << std::endl;
+    for (unsigned i = 0; i < table->getRows(); i++)
+    {
+        for (unsigned j = 0; j < table->getCols(); j++)
+        {
+            out << table->getCellValue(i, j) << " | ";
+        }
+        out << std::endl;
+    }
 }

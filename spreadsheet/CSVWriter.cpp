@@ -1,6 +1,6 @@
 #include "CSVWriter.h"
 
-void CSVWriter::writeCSVRow(std::ostream& out, const std::vector<std::string>& csvRow)
+void CSVWriter::writeCSVRow(std::ostream& out, const std::vector<std::string>& csvRow) const
 {
     bool firstField = true;
     for (const std::string& field : csvRow)

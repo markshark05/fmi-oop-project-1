@@ -5,7 +5,7 @@
 
 class Tokenizer
 {
-public:
+private:
     enum class State
     {
         Intial,
@@ -14,7 +14,8 @@ public:
         Number_i,
         Number_f,
     };
-    static std::vector<Token> tokenize(const std::string& str);
+public:
+    std::vector<Token> tokenize(const std::string& str) const;
 private:
-    static void token_outside(State& s, std::vector<Token>& tokens, std::string& curr_str, const char c);
+    void token_outside(State& s, std::vector<Token>& tokens, std::string& curr_str, const char c) const;
 };

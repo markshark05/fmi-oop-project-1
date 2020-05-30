@@ -6,5 +6,5 @@
 class CSVReader
 {
 public:
-    std::vector<std::string> readCSVRow(std::istream& in);
+    std::vector<std::string> readCSVRow(std::istream& in) const;
 };

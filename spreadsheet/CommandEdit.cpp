@@ -5,6 +5,11 @@ CommandEdit::CommandEdit()
 {
 }
 
+bool CommandEdit::fileRequirement()
+{
+    return false;
+}
+
 void CommandEdit::execute(std::istream& in, std::ostream& out, const std::vector<std::string>& args)
 {
     out << "edit executed" << std::endl;

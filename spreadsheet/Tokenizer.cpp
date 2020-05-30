@@ -3,7 +3,7 @@
 #include <map>
 #include <stdexcept>
 
-std::vector<Token> Tokenizer::tokenize(const std::string& str)
+std::vector<Token> Tokenizer::tokenize(const std::string& str) const
 {
     State s{ State::Intial };
     std::vector<Token> tokens;
@@ -102,7 +102,7 @@ std::vector<Token> Tokenizer::tokenize(const std::string& str)
     return tokens;
 }
 
-void Tokenizer::token_outside(State& s, std::vector<Token>& tokens, std::string& curr_str, const char c)
+void Tokenizer::token_outside(State& s, std::vector<Token>& tokens, std::string& curr_str, const char c) const
 {
     if (c == '"')
     {
