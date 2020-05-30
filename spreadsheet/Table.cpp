@@ -1,5 +1,4 @@
 #include <fstream>
-#include <algorithm>
 #include "Table.h"
 #include "ExpressionParser.h"
 
@@ -26,29 +25,39 @@ unsigned Table::getCols() const
 std::string Table::getCellValue(unsigned row, unsigned col) const
 {
     std::pair<unsigned, unsigned> key{ row, col };
-    
+
     if (table.count(key))
     {
-        Cell cell{ table.at(key) };
+        const Cell& cell{ table.at(key) };
         std::vector<Token> tokens{ cell.getTokens() };
-        if (tokens.size() == 0)
+
+        switch (tokens.size())
         {
+        case 0:
             return "";
+        case 1:
+        {
+            Token t = tokens[0];
+            return t.getValue();
         }
-        else if (tokens.size() == 1)
+        default:
         {
             Token t = tokens[0];
             switch (t.getType())
             {
             case Token::Type::Operator_Equals:
-                return std::to_string(parser->evaluate(cell.getTokens()));
+            {
+                double value = parser->evaluate(cell.getTokens());
+                if (trunc(value) == value)
+                {
+                    return std::to_string(static_cast<int>(value));
+                }
+                return std::to_string(value);
+            }
             default:
-                return t.getValue();
+                return "ERROR";
             }
         }
-        else
-        {
-            return "ERROR";
         }
     }
 

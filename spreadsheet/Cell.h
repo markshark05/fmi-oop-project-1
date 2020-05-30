@@ -8,6 +8,6 @@ private:
 public:
     Cell();
     Cell(const std::vector<Token>& tokens);
-    std::vector<Token>& getTokens();
+    std::vector<Token> getTokens() const;
 };
 
