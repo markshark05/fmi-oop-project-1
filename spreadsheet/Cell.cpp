@@ -9,7 +9,7 @@ Cell::Cell(const std::vector<Token>& tokens) :
 {
 }
 
-std::vector<Token> Cell::getTokens() const
+const std::vector<Token>& Cell::getTokens() const
 {
     return tokens;
 }

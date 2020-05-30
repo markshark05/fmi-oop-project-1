@@ -16,10 +16,9 @@ void Application::run()
 {
     CSVReader reader;
     CSVWriter writer;
-    Tokenizer tokenizer;
     ExpressionParser parser;
 
-    Table table{ reader, writer, tokenizer, parser };
+    Table table{ reader, writer, parser };
     FileContext fileCtx;
     std::vector<Command*> commands
     {

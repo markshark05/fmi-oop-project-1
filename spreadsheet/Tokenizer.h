@@ -13,9 +13,16 @@ private:
         String_e,
         Number_i,
         Number_f,
+        Identifier_r,
+        Identifier_r_n,
+        Identifier_c,
+        Identifier_c_n,
     };
+    std::vector<Token> tokens;
+    std::string str;
+    State s;
 public:
-    std::vector<Token> tokenize(const std::string& str) const;
-private:
-    void token_outside(State& s, std::vector<Token>& tokens, std::string& curr_str, const char c) const;
+    Tokenizer(const std::string& str);
+    std::vector<Token> getTokens() const;
+    bool tokenize();
 };

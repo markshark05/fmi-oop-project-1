@@ -6,6 +6,7 @@ class Token
 public:
     enum class Type
     {
+        Empty,
         Operator_Plus,
         Operator_Minus,
         Operator_Multiply,
@@ -15,13 +16,14 @@ public:
         Number_i,
         Number_f,
         String,
-        Identifier_R,
-        Identifier_C
+        Identifier,
     };
 private:
     Type _type;
     std::string _value;
 public:
+    Token();
+    Token(char c, Token::Type type);
     Token(std::string value, Token::Type type);
     Type getType() const;
     std::string getValue() const;

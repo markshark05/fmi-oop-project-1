@@ -1,9 +1,9 @@
 #include "ExpressionParser.h"
 
-double ExpressionParser::evaluate(const std::vector<Token>& tokens) const
+Token ExpressionParser::evaluate(const std::vector<Token>& tokens) const
 {
     std::queue<Token> rpnQueue{ toRPN(tokens) };
-    double result{ evaluateRPN(rpnQueue) };
+    Token result{ evaluateRPN(rpnQueue) };
 
     return result;
 }
@@ -18,6 +18,7 @@ std::queue<Token> ExpressionParser::toRPN(const std::vector<Token>& tokens)
     {
         switch (token.getType())
         {
+        case Token::Type::Empty:
         case Token::Type::String:
         {
             output.push({ "0", Token::Type::Number_i });
@@ -58,9 +59,9 @@ std::queue<Token> ExpressionParser::toRPN(const std::vector<Token>& tokens)
     return output;
 }
 
-double ExpressionParser::evaluateRPN(std::queue<Token> queue)
+Token ExpressionParser::evaluateRPN(std::queue<Token> queue)
 {
-    std::stack<double> output;
+    std::stack<Token> output;
 
     while (!queue.empty())
     {
@@ -70,9 +71,7 @@ double ExpressionParser::evaluateRPN(std::queue<Token> queue)
         case Token::Type::Number_i:
         case Token::Type::Number_f:
         {
-            double value = std::stod(token.getValue());
-
-            output.push(value);
+            output.push(token);
         }
         break;
         case Token::Type::Operator_Plus:
@@ -81,13 +80,25 @@ double ExpressionParser::evaluateRPN(std::queue<Token> queue)
         case Token::Type::Operator_Divide:
         case Token::Type::Operator_Pow:
         {
-            double b{ output.top() };
+            Token b{ output.top() };
             output.pop();
 
-            double a{ output.top() };
+            Token a{ output.top() };
             output.pop();
 
-            double result{ performOperation(a, b, token.getType()) };
+            double aval = std::stod(a.getValue());
+            double bval = std::stod(b.getValue());
+            double resultval = performOperation(aval, bval, token.getType());
+
+            Token result;
+            if (a.getType() == Token::Type::Number_i && b.getType() == Token::Type::Number_i)
+            {
+                result = Token{ std::to_string(static_cast<int>(resultval)), Token::Type::Number_i };
+            }
+            else
+            {
+                result = Token{ std::to_string(resultval), Token::Type::Number_f };
+            }
 
             output.push(result);
         }
@@ -98,7 +109,7 @@ double ExpressionParser::evaluateRPN(std::queue<Token> queue)
 
     if (output.empty())
     {
-        return 0;
+        return Token{};
     }
 
     return output.top();

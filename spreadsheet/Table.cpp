@@ -1,13 +1,13 @@
 #include <fstream>
 #include "Table.h"
 #include "ExpressionParser.h"
+#include "CellIdentifier.h"
 
-Table::Table(const CSVReader& reader, const CSVWriter& writer, const Tokenizer& tokenizer, const ExpressionParser& parser) :
+Table::Table(const CSVReader& reader, const CSVWriter& writer, const ExpressionParser& parser) :
     rows(0),
     cols(0),
     reader(&reader),
     writer(&writer),
-    tokenizer(&tokenizer),
     parser(&parser)
 {
 }
@@ -22,23 +22,28 @@ unsigned Table::getCols() const
     return cols;
 }
 
-std::string Table::getCellValue(unsigned row, unsigned col) const
+std::string Table::getCellString(unsigned row, unsigned col) const
+{
+    Token token = getCellValue(row, col);
+    return token.getValue();
+}
+
+Token Table::getCellValue(unsigned row, unsigned col) const
 {
     std::pair<unsigned, unsigned> key{ row, col };
 
     if (table.count(key))
     {
-        const Cell& cell{ table.at(key) };
-        std::vector<Token> tokens{ cell.getTokens() };
+        std::vector<Token> tokens{ table.at(key).getTokens() };
 
         switch (tokens.size())
         {
         case 0:
-            return "";
+            return Token{};
         case 1:
         {
             Token t = tokens[0];
-            return t.getValue();
+            return t;
         }
         default:
         {
@@ -47,21 +52,25 @@ std::string Table::getCellValue(unsigned row, unsigned col) const
             {
             case Token::Type::Operator_Equals:
             {
-                double value = parser->evaluate(cell.getTokens());
-                if (trunc(value) == value)
+                for (unsigned i = 1; i < tokens.size(); i++)
                 {
-                    return std::to_string(static_cast<int>(value));
+                    if (tokens[i].getType() == Token::Type::Identifier)
+                    {
+                        CellIdentifier id{ tokens[i].getValue() };
+                        tokens[i] = getCellValue(id.getRow(), id.getCol());
+                    }
                 }
-                return std::to_string(value);
+
+                return parser->evaluate(tokens);
             }
             default:
-                return "ERROR";
+                return t;
             }
         }
         }
     }
 
-    return "";
+    return Token{};
 }
 
 bool Table::load(const std::string& fileName)
@@ -83,7 +92,12 @@ bool Table::load(const std::string& fileName)
         std::vector<std::string> row = reader->readCSVRow(file);
         for (const std::string& cellStr : row)
         {
-            std::vector<Token> tokens = tokenizer->tokenize(cellStr);
+            Tokenizer tokenizer{ cellStr };
+            if (!tokenizer.tokenize())
+            {
+                return false;
+            }
+            std::vector<Token> tokens = tokenizer.getTokens();
             Cell cell{ tokens };
             table[{ row_i, col_i  }] = cell;
             col_i++;
