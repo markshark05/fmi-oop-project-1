@@ -6,51 +6,39 @@ std::vector<std::string> CSVReader::readCSVRow(std::istream& in)
     std::getline(in, row);
     std::istringstream rowstream{ row };
 
-    CSVState state = CSVState::Initial;
     std::vector<std::string> fields{ "" };
-    int field_i = 0;
+    bool escaped = false;
     char c;
     while(rowstream.get(c))
     {
-        switch (state)
+        if (!escaped)
         {
-        case CSVState::Initial:
             switch (c)
             {
             case ',':
-                fields.push_back(""); field_i++;
+                fields.push_back("");
                 break;
-            case '"': state = CSVState::Quoted;
+            case '\\': 
+                escaped = true;
                 break;
-            default: fields[field_i].push_back(c);
-                break;
-            }
-            break;
-        case CSVState::Quoted:
-            switch (c)
-            {
-            case '"': state = CSVState::QuotedQuote;
-                break;
-            default: fields[field_i].push_back(c);
+            default: 
+                fields.back().push_back(c);
                 break;
             }
-            break;
-        case CSVState::QuotedQuote:
+        }
+        else
+        {
             switch (c)
             {
             case ',':
-                fields.push_back(""); field_i++;
-                state = CSVState::Initial;
-                break;
-            case '"':
-                fields[field_i].push_back('"');
-                state = CSVState::Quoted;
+                fields.back().push_back(c);
                 break;
             default:
-                state = CSVState::Initial;
+                fields.back().push_back('\\');
+                fields.back().push_back(c);
                 break;
             }
-            break;
+            escaped = false;
         }
     }
 
