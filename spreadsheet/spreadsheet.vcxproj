@@ -27,6 +27,8 @@
     <ClCompile Include="CommandExit.cpp" />
     <ClCompile Include="CommandHelp.cpp" />
     <ClCompile Include="CommandPrint.cpp" />
+    <ClCompile Include="CSVReader.cpp" />
+    <ClCompile Include="CSVWriter.cpp" />
     <ClCompile Include="ExpressionParser.cpp" />
     <ClCompile Include="FileContext.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -45,6 +47,8 @@
     <ClInclude Include="CommandExit.h" />
     <ClInclude Include="CommandHelp.h" />
     <ClInclude Include="CommandPrint.h" />
+    <ClInclude Include="CSVReader.h" />
+    <ClInclude Include="CSVWriter.h" />
     <ClInclude Include="ExpressionParser.h" />
     <ClInclude Include="CommandOpen.h" />
     <ClInclude Include="CommandSaveAs.h" />
