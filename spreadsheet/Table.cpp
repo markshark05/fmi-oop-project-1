@@ -96,6 +96,8 @@ bool Table::setCellValue(unsigned row, unsigned col, const std::string& cellStr)
     std::vector<Token> tokens = tokenizer.getTokens();
     Cell cell{ tokens };
     table[{ row, col  }] = cell;
+    rows = std::max(row + 1, rows);
+    cols = std::max(col + 1, cols);
     return true;
 }
 
@@ -127,9 +129,7 @@ bool Table::load(const std::string& fileName, TableError& error)
             col_i++;
         }
         row_i++;
-        cols = std::max(cols, col_i);
     }
-    rows = row_i;
 
     return true;
 }
