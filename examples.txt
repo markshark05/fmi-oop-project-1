@@ -1,0 +1,22 @@
+help
+
+open table1.csv
+print
+
+edit R2C2
+"new string"
+
+edit R5C1
+=R3C1+R3C2*R3C3
+
+edit R4C2
+=R5C1*5
+print
+
+saveas table2.csv
+close
+
+open table1.csv
+print
+
+exit
