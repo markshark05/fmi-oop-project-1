@@ -27,7 +27,7 @@ void Application::run()
         new CommandSave{ fileCtx, table },
         new CommandSaveAs{ fileCtx, table },
 
-        new CommandEdit,
+        new CommandEdit{ fileCtx, table },
         new CommandPrint{ fileCtx, table },
     };
 

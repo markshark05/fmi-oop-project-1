@@ -56,7 +56,8 @@ Token Table::getCellValue(unsigned row, unsigned col) const
                 {
                     if (tokens[i].getType() == Token::Type::Identifier)
                     {
-                        CellIdentifier id{ tokens[i].getValue() };
+                        CellIdentifier id;
+                        CellIdentifier::tryParse(tokens[i].getValue(), id);
                         tokens[i] = getCellValue(id.getRow(), id.getCol());
                     }
                 }
@@ -71,6 +72,19 @@ Token Table::getCellValue(unsigned row, unsigned col) const
     }
 
     return Token{};
+}
+
+bool Table::setCellValue(unsigned row, unsigned col, const std::string& cellStr)
+{
+    Tokenizer tokenizer{ cellStr };
+    if (!tokenizer.tokenize())
+    {
+        return false;
+    }
+    std::vector<Token> tokens = tokenizer.getTokens();
+    Cell cell{ tokens };
+    table[{ row, col  }] = cell;
+    return true;
 }
 
 bool Table::load(const std::string& fileName)
@@ -92,14 +106,10 @@ bool Table::load(const std::string& fileName)
         std::vector<std::string> row = reader->readCSVRow(file);
         for (const std::string& cellStr : row)
         {
-            Tokenizer tokenizer{ cellStr };
-            if (!tokenizer.tokenize())
+            if (!setCellValue(row_i, col_i, cellStr))
             {
                 return false;
             }
-            std::vector<Token> tokens = tokenizer.getTokens();
-            Cell cell{ tokens };
-            table[{ row_i, col_i  }] = cell;
             col_i++;
         }
         row_i++;

@@ -26,6 +26,7 @@ public:
 
     std::string getCellString(unsigned row, unsigned col) const;
     Token getCellValue(unsigned row, unsigned col) const;
+    bool setCellValue(unsigned row, unsigned col, const std::string& cellStr);
 
     bool load(const std::string& fileName);
     bool save(const std::string& fileName) const;

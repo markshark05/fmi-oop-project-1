@@ -4,13 +4,15 @@
 class CellIdentifier
 {
 private:
-    const unsigned OFFSET{ 1 };
+    static const unsigned OFFSET{ 1 };
     unsigned row;
     unsigned col;
 public:
-    CellIdentifier(const std::string& str);
+    CellIdentifier();
     CellIdentifier(unsigned row, unsigned col);
     unsigned getRow() const;
     unsigned getCol() const;
+    
     std::string toString() const;
+    static bool tryParse(const std::string& str, CellIdentifier& identifier);
 };
