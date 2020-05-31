@@ -7,8 +7,8 @@
 #include "Token.h"
 
 /**
- * @brief Represents a mathematical expression parser\n 
- * Implementation of the https://en.wikipedia.org/wiki/Shunting-yard_algorithm\n 
+ * @brief Represents a mathematical expression parser \n 
+ * Implementation of the https://en.wikipedia.org/wiki/Shunting-yard_algorithm \n 
  * Converts the infix representation of the expression to postfix (RPN) and evaluates it
  */
 class ExpressionParser

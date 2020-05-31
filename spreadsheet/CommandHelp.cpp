@@ -17,8 +17,7 @@ void CommandHelp::execute(std::istream& in, std::ostream& out, const std::vector
         << std::setw(COL_USAGE) << "Usage"
         << std::endl;
 
-    const std::vector<Command*>& commands = _loop->getCommands();
-    for (Command* const& c : commands)
+    for (Command* c : _loop->getCommands())
     {
         out
             << std::setw(COL_NAME) << c->getName()

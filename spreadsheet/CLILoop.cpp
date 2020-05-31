@@ -74,7 +74,7 @@ Command* CLILoop::findMatchingCommand(const std::string& lineStr)
 {
     Command* bestMatch = nullptr;
     size_t bestMatchLength = 0;
-    for (Command*& c : *commands)
+    for (Command* c : *commands)
     {
         const std::string& commandName = c->getName();
         if (lineStr.compare(0, commandName.length(), commandName) == 0)
