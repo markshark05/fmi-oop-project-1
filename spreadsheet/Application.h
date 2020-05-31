@@ -2,6 +2,6 @@
 class Application
 {
 public:
-    void run();
+    void run(std::istream& in, std::ostream& out);
 };
 

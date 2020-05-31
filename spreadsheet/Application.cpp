@@ -12,7 +12,7 @@
 #include "CommandPrint.h"
 #include "ExpressionParser.h"
 
-void Application::run()
+void Application::run(std::istream& in, std::ostream& out)
 {
     CSVReader reader;
     CSVWriter writer;
@@ -31,7 +31,7 @@ void Application::run()
         new CommandPrint{ fileCtx, table },
     };
 
-    CLILoop cmdloop{ std::cin, std::cout, commands };
+    CLILoop cmdloop{ in, out, commands };
 
     commands.push_back(new CommandHelp{ cmdloop });
     commands.push_back(new CommandExit{ cmdloop });

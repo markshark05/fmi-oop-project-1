@@ -1,18 +1,10 @@
+#include <iostream>
 #include "Application.h"
-#include "Table.h"
 
 int main()
 {
-   /* CSVReader r;
-    CSVWriter w;
-    Tokenizer tok;
-
-    Table t{ r, w, tok };
-    t.load("test.txt");*/
-
-
     Application app;
-    app.run();
+    app.run(std::cin, std::cout);
 
     return 0;
 }

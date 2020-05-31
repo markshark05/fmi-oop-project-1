@@ -39,7 +39,7 @@ Token Table::getCellValue(unsigned row, unsigned col) const
         switch (tokens.size())
         {
         case 0:
-            return Token{};
+            return {};
         case 1:
         {
             Token t = tokens[0];
@@ -64,14 +64,26 @@ Token Table::getCellValue(unsigned row, unsigned col) const
 
                 return parser->evaluate(tokens);
             }
+            case Token::Type::Operator_Minus:
+            case Token::Type::Operator_Plus:
+            {
+                Token t1 = tokens[1];
+                switch (t1.getType())
+                {
+                case Token::Type::Number_i:
+                case Token::Type::Number_f:
+                    return { (t.getValue() + t1.getValue()), t1.getType() };
+                default: return {};
+                }
+            }
             default:
-                return t;
+                return {};
             }
         }
         }
     }
 
-    return Token{};
+    return {};
 }
 
 bool Table::setCellValue(unsigned row, unsigned col, const std::string& cellStr)
