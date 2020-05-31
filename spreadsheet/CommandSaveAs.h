@@ -3,6 +3,10 @@
 #include "FileContext.h"
 #include "Table.h"
 
+/**
+ * @brief saveas <file> - saves the currently open file in <file> and switches to it
+ * 
+ */
 class CommandSaveAs :
     public Command
 {

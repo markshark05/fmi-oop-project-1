@@ -3,6 +3,10 @@
 #include "Table.h"
 #include "FileContext.h"
 
+/**
+ * @brief edit <RnCn> - prompts for the new value of the cell
+ * 
+ */
 class CommandEdit :
     public Command
 {

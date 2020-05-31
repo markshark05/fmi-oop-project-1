@@ -3,6 +3,10 @@
 #include "FileContext.h"
 #include "Table.h"
 
+/**
+ * @brief print - prints the current table
+ * 
+ */
 class CommandPrint :
     public Command
 {

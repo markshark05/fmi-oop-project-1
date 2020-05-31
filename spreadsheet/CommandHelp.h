@@ -2,6 +2,10 @@
 #include "Command.h"
 #include "ICommandsLoop.h"
 
+/**
+ * @brief help - prints the help message of all commands
+ * 
+ */
 class CommandHelp :
     public Command
 {

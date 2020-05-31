@@ -3,6 +3,10 @@
 #include "FileContext.h"
 #include "Table.h"
 
+/**
+ * @brief open <file> - loads <file> creating new one if does not exist
+ * 
+ */
 class CommandOpen :
     public Command
 {

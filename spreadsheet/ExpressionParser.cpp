@@ -8,7 +8,6 @@ Token ExpressionParser::evaluate(const std::vector<Token>& tokens) const
     return result;
 }
 
-// Shunting-yard algorithm
 std::queue<Token> ExpressionParser::toRPN(const std::vector<Token>& tokens)
 {
     std::stack<Token> operators;

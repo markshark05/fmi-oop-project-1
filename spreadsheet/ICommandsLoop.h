@@ -2,6 +2,10 @@
 #include <vector>
 #include "Command.h"
 
+/**
+ * @brief Represents an abstract object that provides a list of commands
+ * 
+ */
 class ICommandsLoop
 {
 public:

@@ -3,6 +3,10 @@
 #include <string>
 #include "Token.h"
 
+/**
+ * @brief Represents object that can tokenize an input string into instances of Token
+ * 
+ */
 class Tokenizer
 {
 private:
@@ -22,8 +26,30 @@ private:
     std::string str;
     State s;
 public:
+    /**
+     * @brief Construct a new Tokenizer with the input string
+     * 
+     * @param str the input string
+     */
     Tokenizer(const std::string& str);
+    /**
+     * @brief get the produced tokens by tokenize()
+     * 
+     * @return std::vector<Token> 
+     */
     std::vector<Token> getTokens() const;
+    /**
+     * @brief attempts to construct a std::vecor of tokens from the provided string
+     * 
+     * @return true if successful
+     * @return false otheriwse
+     */
     bool tokenize();
+    /**
+     * @brief helper method to convert a token to it's escaped string representation
+     * 
+     * @param token token to stringify
+     * @return std::string 
+     */
     static std::string stringify(const Token& token);
 };

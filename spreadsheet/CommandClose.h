@@ -2,6 +2,10 @@
 #include "Command.h"
 #include "FileContext.h"
 
+/**
+ * @brief close - closes currently opened file
+ * 
+ */
 class CommandClose :
     public Command
 {

@@ -2,6 +2,10 @@
 #include "Command.h"
 #include "IStoppableLoop.h"
 
+/**
+ * @brief exit - exists the program
+ * 
+ */
 class CommandExit :
     public Command
 {

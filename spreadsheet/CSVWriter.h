@@ -3,6 +3,11 @@
 #include <string>
 #include <vector>
 
+/**
+ * @brief repsents a csv writer
+ * joins strings with comma and escapes commas in them
+ * 
+ */
 class CSVWriter
 {
 public:
