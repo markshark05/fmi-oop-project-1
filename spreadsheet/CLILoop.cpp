@@ -39,48 +39,63 @@ void CLILoop::loop()
         std::string line;
         std::getline(in, line);
 
-        std::istringstream linestream{ line };
-        std::string commandStr;
-        if (linestream >> commandStr)
+        if (line.empty())
         {
-            Command* command = nullptr;
-            for (Command* const& c : *commands)
-            {
-                if (c->getName() == commandStr)
-                {
-                    command = c;
-                }
-            }
+            continue;
+        }
 
-            if (command)
+        Command* command = findMatchingCommand(line);
+        if (command)
+        {
+            line.erase(0, command->getName().length());
+            std::vector<std::string> args = parseArgs(line);
+
+            if (!command->fileRequirement())
             {
-                std::vector<std::string> args = parseArgs(linestream);
-                if (!command->fileRequirement())
-                {
-                    out << "Command requires an open file." << std::endl;
-                }
-                else if ((int)args.size() < command->getMinArgsCount())
-                {
-                    out << "Expected " << command->getMinArgsCount() << " argument(s) but got " << args.size() << "." << std::endl;
-                }
-                else
-                {
-                    command->execute(in, out, args);
-                }
+                out << "Command requires an open file." << std::endl;
+            }
+            else if ((int)args.size() < command->getMinArgsCount())
+            {
+                out << "Expected " << command->getMinArgsCount() << " argument(s) but got " << args.size() << "." << std::endl;
             }
             else
             {
-                out << "Unknown command \"" << commandStr << "\"." << std::endl;
+                command->execute(in, out, args);
             }
+        }
+        else
+        {
+            out << "Unknown command." << std::endl;
         }
     }
 }
 
-std::vector<std::string> CLILoop::parseArgs(std::istringstream& linestream)
+Command* CLILoop::findMatchingCommand(const std::string& lineStr)
+{
+    Command* bestMatch = nullptr;
+    size_t bestMatchLength = 0;
+    for (Command*& c : *commands)
+    {
+        const std::string& commandName = c->getName();
+        if (lineStr.compare(0, commandName.length(), commandName) == 0)
+        {
+            if (commandName.length() >= bestMatchLength)
+            {
+                bestMatch = c;
+                bestMatchLength = commandName.length();
+            }
+        }
+    }
+    return bestMatch;
+}
+
+std::vector<std::string> CLILoop::parseArgs(const std::string& lineStr)
 {
     std::vector<std::string> args;
+
     std::string token;
-    while(linestream >> token)
+    std::istringstream linestream{ lineStr };
+    while (linestream >> token)
     {
         args.push_back(token);
     }
