@@ -20,14 +20,14 @@ void CommandEdit::execute(std::istream& in, std::ostream& out, const std::vector
     CellIdentifier cellid;
     if (!CellIdentifier::tryParse(cellidStr, cellid))
     {
-        out << "Invalid cell id" << std::endl;
+        out << "Error: Invalid cell id" << std::endl;
         return;
     }
 
     std::string newCellValue = promptLine(in, out, "Value");
     if (!table->setCellValue(cellid.getRow(), cellid.getCol(), newCellValue))
     {
-        out << "Invalid token in new cell value" << std::endl;
+        out << "Error: Invalid token in new cell value" << std::endl;
         return;
     }
 

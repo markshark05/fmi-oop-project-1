@@ -17,12 +17,19 @@ void CommandOpen::execute(std::istream& in, std::ostream& out, const std::vector
         return;
     }
 
-    if (table->load(filename))
+    TableError err;
+    if (table->load(filename, err))
     {
         fileCtx->setActiveFile(filename);
         out << "File loaded succesfully." << std::endl;
         return;
     }
 
-    out << "Failed to load file" << std::endl;
+    if (err.isFileError())
+    {
+        out << "Error: Failed to open file" << std::endl;
+        return;
+    }
+
+    out << "Error: Row " << err.getRow() << ", Col " << err.getCol() << " - invalid token" << std::endl;
 }

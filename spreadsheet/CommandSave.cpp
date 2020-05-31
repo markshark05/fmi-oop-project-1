@@ -20,5 +20,5 @@ void CommandSave::execute(std::istream& in, std::ostream& out, const std::vector
         return;
     }
 
-    out << "Failed to save file" << std::endl;
+    out << "Error: Failed to save file" << std::endl;
 }

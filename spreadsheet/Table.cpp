@@ -87,11 +87,12 @@ bool Table::setCellValue(unsigned row, unsigned col, const std::string& cellStr)
     return true;
 }
 
-bool Table::load(const std::string& fileName)
+bool Table::load(const std::string& fileName, TableError& error)
 {
     std::fstream file{ fileName, std::ios::in | std::ios::out | std::fstream::app };
     if (!file)
     {
+        error = { true };
         return false;
     }
 
@@ -108,6 +109,7 @@ bool Table::load(const std::string& fileName)
         {
             if (!setCellValue(row_i, col_i, cellStr))
             {
+                error = { row_i , col_i };
                 return false;
             }
             col_i++;

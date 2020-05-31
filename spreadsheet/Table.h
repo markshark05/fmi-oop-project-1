@@ -7,6 +7,7 @@
 #include "CSVWriter.h"
 #include "Tokenizer.h"
 #include "ExpressionParser.h"
+#include "TableError.h"
 
 class Table
 {
@@ -28,6 +29,6 @@ public:
     Token getCellValue(unsigned row, unsigned col) const;
     bool setCellValue(unsigned row, unsigned col, const std::string& cellStr);
 
-    bool load(const std::string& fileName);
+    bool load(const std::string& fileName, TableError& error);
     bool save(const std::string& fileName) const;
 };

@@ -38,6 +38,7 @@
     <ClCompile Include="CommandSaveAs.cpp" />
     <ClCompile Include="CommandSave.cpp" />
     <ClCompile Include="Table.cpp" />
+    <ClCompile Include="TableError.cpp" />
     <ClCompile Include="Token.cpp" />
     <ClCompile Include="Tokenizer.cpp" />
   </ItemGroup>
@@ -62,6 +63,7 @@
     <ClInclude Include="ICommandsLoop.h" />
     <ClInclude Include="IStoppableLoop.h" />
     <ClInclude Include="Table.h" />
+    <ClInclude Include="TableError.h" />
     <ClInclude Include="Token.h" />
     <ClInclude Include="Tokenizer.h" />
   </ItemGroup>

@@ -78,6 +78,9 @@
     <ClCompile Include="CellIdentifier.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TableError.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommandClose.h">
@@ -144,6 +147,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CellIdentifier.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TableError.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
