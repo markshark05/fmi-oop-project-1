@@ -5,8 +5,9 @@
 #include "ICommandsLoop.h"
 
 /**
- * @brief The CLILoop runns the specified commands using the provided istream and ostream
- * 
+ * @brief The CLILoop runns the specified commands using the provided istream and ostream\n 
+ * Presnets a prompt to the user, splits the arguments and finds the requested commands.\n 
+ * Provides error handling for missing commands, unsatisfied command requirements invalid argument count, etc.
  */
 class CLILoop :
     public IStoppableLoop,
@@ -39,7 +40,7 @@ public:
     /**
      * @brief Get a reference to the supported commands
      * 
-     * @return const std::vector<Command*>& 
+     * @return const std::vector\<Command*\>& 
      */
     const std::vector<Command*>& getCommands() const;
 private:

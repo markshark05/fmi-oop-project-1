@@ -11,5 +11,11 @@
 class CSVWriter
 {
 public:
+    /**
+     * @brief performs the csv write
+     * 
+     * @param out the stream to write to
+     * @param csvRow the data
+     */
     void writeCSVRow(std::ostream& out, const std::vector<std::string>& csvRow) const;
 };

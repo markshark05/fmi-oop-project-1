@@ -35,7 +35,7 @@ public:
     /**
      * @brief get the produced tokens by tokenize()
      * 
-     * @return std::vector<Token> 
+     * @return std::vector\<Token\> 
      */
     std::vector<Token> getTokens() const;
     /**

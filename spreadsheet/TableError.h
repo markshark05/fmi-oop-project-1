@@ -11,8 +11,22 @@ private:
     int row;
     int col;
 public:
+    /**
+     * @brief Construct a new TableError with no errors
+     * 
+     */
     TableError();
+    /**
+     * @brief Construct a new TableError with file open error
+     * 
+     */
     TableError(bool);
+    /**
+     * @brief Construct a new TableError with invalid data in cell error
+     * 
+     * @param row 
+     * @param col 
+     */
     TableError(unsigned row, unsigned col);
     /**
      * 

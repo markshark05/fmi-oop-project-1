@@ -14,6 +14,12 @@ private:
     FileContext* fileCtx;
     Table* table;
 public:
+    /**
+     * @brief Construct a new CommandSave
+     * 
+     * @param fileCtx active file
+     * @param table referenc to table
+     */
     CommandSave(FileContext& fileCtx, Table& table);
     bool fileRequirement() override;
     void execute(std::istream& in, std::ostream& out, const std::vector<std::string>& args) override;

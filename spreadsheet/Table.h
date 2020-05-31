@@ -82,5 +82,12 @@ public:
      * @return false otherwise
      */
     bool load(const std::string& fileName, TableError& error);
+    /**
+     * @brief writes the current in-memory table to file overwriting it
+     * 
+     * @param fileName 
+     * @return true 
+     * @return false 
+     */
     bool save(const std::string& fileName) const;
 };

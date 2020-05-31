@@ -8,6 +8,10 @@
 class Token
 {
 public:
+    /**
+     * @brief the vailable token types
+     * 
+     */
     enum class Type
     {
         Empty,

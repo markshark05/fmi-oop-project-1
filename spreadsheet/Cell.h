@@ -25,7 +25,7 @@ public:
     /**
      * @brief Get the Tokens vector
      * 
-     * @return const std::vector<Token>& 
+     * @return const std::vector\<Token\>& 
      */
     const std::vector<Token>& getTokens() const;
 };

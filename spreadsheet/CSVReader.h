@@ -11,5 +11,11 @@
 class CSVReader
 {
 public:
+    /**
+     * @brief performs the csv parse
+     * 
+     * @param in the stream to read from
+     * @return std::vector\<std::string\> the data
+     */
     std::vector<std::string> readCSVRow(std::istream& in) const;
 };

@@ -12,6 +12,11 @@ class CommandHelp :
 private:
     const ICommandsLoop* _loop;
 public:
+    /**
+     * @brief Construct a new CommandHelp
+     * 
+     * @param commandLoop reference to loop
+     */
     CommandHelp(const ICommandsLoop& commandLoop);
     void execute(std::istream& in, std::ostream& out, const std::vector<std::string>& args) override;
 };

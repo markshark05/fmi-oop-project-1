@@ -2,7 +2,7 @@
 #include <string>
 
 /**
- * @brief Represents a cell id in the format R<n>C<n>
+ * @brief Represents a cell id in the format R\<n\>C\<n\>
  * 
  */
 class CellIdentifier
